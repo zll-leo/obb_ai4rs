@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'DOTADataset'
-data_root = 'data/split_ss_dota/'
+data_root = '/home/leo/dataset/dota12/split_ss_dota/'
 
 backend_args = None
 

@@ -125,3 +125,6 @@ tmp
 
 # custom
 mmrotate/.mim
+
+.vscode/
+.claude/
