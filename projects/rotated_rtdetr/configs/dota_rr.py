@@ -1,6 +1,15 @@
 # dataset settings
 dataset_type = 'DOTADataset'
-data_root = '/home/leo/dataset/dota12/split_ss_dota/'
+data_root = '/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/split_output/'
+
+# 自定义类别
+classes = ('angelSteel', 'clamp', 'LConnection', 'TConnection', 'angelSteelBack',
+           'angelSteelFront', 'dimension', 'tiltedConnection')
+# 为每个类别生成颜色（palette）
+palette = [(165, 42, 42), (189, 183, 107), (0, 255, 0), (255, 0, 0),
+           (138, 43, 226), (255, 128, 0), (255, 0, 255), (0, 255, 255)]
+
+metainfo = dict(classes=classes, palette=palette)
 
 backend_args = None
 
@@ -17,7 +26,7 @@ train_pipeline = [
         type='RandomRotate',
         prob=0.5,
         angle_range=180,
-        rect_obj_labels=[9, 11]),
+        rect_obj_labels=[]),  # 自定义数据集无需矩形对象标签
     dict(
         type='mmdet.Pad', size=(1024, 1024),
         pad_val=dict(img=(114, 114, 114))),
@@ -57,9 +66,10 @@ train_dataloader = dict(
     pin_memory=False,
     dataset=dict(
         type=dataset_type,
+        metainfo=metainfo,
         data_root=data_root,
-        ann_file='trainval/annfiles/',
-        data_prefix=dict(img_path='trainval/images/'),
+        ann_file='annfiles/',
+        data_prefix=dict(img_path='images/'),
         filter_cfg=dict(filter_empty_gt=True),
         pipeline=train_pipeline))
 val_dataloader = dict(
@@ -70,9 +80,10 @@ val_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
         type=dataset_type,
+        metainfo=metainfo,
         data_root=data_root,
-        ann_file='trainval/annfiles/',
-        data_prefix=dict(img_path='trainval/images/'),
+        ann_file='annfiles/',
+        data_prefix=dict(img_path='images/'),
         test_mode=True,
         pipeline=val_pipeline))
 # test_dataloader = val_dataloader
@@ -90,6 +101,7 @@ test_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
         type=dataset_type,
+        metainfo=metainfo,
         data_root=data_root,
         data_prefix=dict(img_path='test/images/'),
         test_mode=True,

@@ -1,12 +1,12 @@
 {
   "nproc": 10,
   "img_dirs": [
-    "data/DOTA/train/images/",
-    "data/DOTA/val/images/"
+    "/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/images/train/",
+    "/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/images/val/"
   ],
   "ann_dirs": [
-    "data/DOTA/train/labelTxt/",
-    "data/DOTA/val/labelTxt/"
+    "/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/labels/train/",
+    "/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/labels/val/"
   ],
   "sizes": [
     1024
@@ -25,6 +25,6 @@
     116,
     124
   ],
-  "save_dir": "data/split_ss_dota/trainval/",
+  "save_dir": "/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/split_output/",
   "save_ext": ".png"
 }

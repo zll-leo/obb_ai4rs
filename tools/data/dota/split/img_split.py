@@ -129,8 +129,8 @@ def parse_args():
     assert args.save_ext in ['.png', '.jpg', 'bmp', '.tif']
     assert args.iof_thr >= 0 and args.iof_thr < 1
     assert args.iof_thr >= 0 and args.iof_thr <= 1
-    assert not osp.exists(args.save_dir), \
-        f'{osp.join(args.save_dir)} already exists'
+    # assert not osp.exists(args.save_dir), \
+    #     f'{osp.join(args.save_dir)} already exists'
     return args
 
 
@@ -545,8 +545,8 @@ def main():
         gaps += [int(gap / rate) for gap in args.gaps]
     save_imgs = osp.join(args.save_dir, 'images')
     save_files = osp.join(args.save_dir, 'annfiles')
-    os.makedirs(save_imgs)
-    os.makedirs(save_files)
+    os.makedirs(save_imgs, exist_ok=True)
+    os.makedirs(save_files, exist_ok=True)
     logger = setup_logger(args.save_dir)
 
     print('Loading original data!!!')
