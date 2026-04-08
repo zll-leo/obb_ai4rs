@@ -111,3 +111,36 @@ test_evaluator = dict(
     format_only=True,
     merge_patches=True,
     outfile_prefix='./work_dirs/Task1')
+
+# custom hooks
+custom_hooks = [
+    dict(type='mmdet.NumClassCheckHook'),
+    dict(
+        type='SwanLabHook',
+        init_kwargs=dict(
+            project='obb-ai4rs',
+            experiment_name='dota_rr_training',
+            description='O2RTDETR on custom DOTA-like dataset'
+        ),
+        interval=10)
+]
+
+# runtime settings
+default_scope = 'mmrotate'
+
+default_hooks = dict(
+    timer=dict(type='IterTimerHook'),                           # 记录每次迭代耗时
+    logger=dict(type='LoggerHook', interval=50),                # 每50次迭代打印日志
+    param_scheduler=dict(type='ParamSchedulerHook'),            # 学习率调度
+    checkpoint=dict(type='CheckpointHook', interval=3, max_keep_ckpts=3),   # 保存模型，最多保留3个
+    sampler_seed=dict(type='DistSamplerSeedHook'),              # 分布式采样随机种子 
+    visualization=dict(type='mmdet.DetVisualizationHook'))      # 可视化预测结果 
+
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='RotLocalVisualizer', vis_backends=vis_backends, name='visualizer')
+log_processor = dict(type='LogProcessor', window_size=50, by_epoch=True)
+
+log_level = 'INFO'
+load_from = None
+resume = False

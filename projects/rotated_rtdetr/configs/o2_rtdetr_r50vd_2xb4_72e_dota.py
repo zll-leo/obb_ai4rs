@@ -99,7 +99,7 @@ model = dict(
         post_norm_cfg=None),
     bbox_head=dict(
         type=RotatedRTDETRHead,
-        num_classes=15,
+        num_classes=8,  # 自定义数据集：8 个类别
         angle_cfg=angle_cfg,
         angle_factor=angle_factor,
         sync_cls_avg_factor=True,
@@ -166,6 +166,15 @@ param_scheduler = [
         type=LinearLR, start_factor=0.001, by_epoch=False, begin=0, end=2000)
 ]
 custom_hooks = [
+    dict(type='mmdet.NumClassCheckHook'),
+    dict(
+        type='SwanLabHook',
+        init_kwargs=dict(
+            project='obb-ai4rs',
+            experiment_name='o2_rtdetr_r50vd_72e_dota',
+            description='O2RTDETR-R50 on DOTA dataset'
+        ),
+        interval=10),
     dict(
         type=EMAHook,
         ema_type=ExpMomentumEMA,
