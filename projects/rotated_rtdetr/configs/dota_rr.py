@@ -3,10 +3,10 @@ dataset_type = 'DOTADataset'
 data_root = '/home/leo/dataset/drawings/ab_af_c_c_d_anno/dota/split_output/'
 
 # 自定义类别
-classes = ('angelSteel', 'clamp', 'LConnection', 'TConnection', 'angelSteelBack',
+classes = ('clamp', 'LConnection', 'TConnection', 'angelSteelBack',
            'angelSteelFront', 'dimension', 'tiltedConnection')
 # 为每个类别生成颜色（palette）
-palette = [(165, 42, 42), (189, 183, 107), (0, 255, 0), (255, 0, 0),
+palette = [(189, 183, 107), (0, 255, 0), (255, 0, 0),
            (138, 43, 226), (255, 128, 0), (255, 0, 255), (0, 255, 255)]
 
 metainfo = dict(classes=classes, palette=palette)
