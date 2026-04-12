@@ -119,15 +119,7 @@ test_evaluator = dict(
 
 # custom hooks
 custom_hooks = [
-    dict(type='mmdet.NumClassCheckHook'),
-    dict(
-        type='SwanLabHook',
-        init_kwargs=dict(
-            project='obb-ai4rs',
-            experiment_name='dota_rr_training',
-            description='O2RTDETR on custom DOTA-like dataset'
-        ),
-        interval=10)
+    dict(type='mmdet.NumClassCheckHook')
 ]
 
 # runtime settings

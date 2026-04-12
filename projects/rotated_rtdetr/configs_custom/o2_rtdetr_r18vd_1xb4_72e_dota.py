@@ -1,6 +1,6 @@
 from mmengine.config import read_base
 with read_base():
-    from .o2_rtdetr_r50vd_2xb4_72e_dota import *
+    from .o2_rtdetr_r50vd_1xb4_72e_dota import *
 
 pretrained = ('https://www.modelscope.cn/models/wokaikaixinxin/ai4rs/resolve/'
               'master/rtdetr/resnet18vd_pretrained_55f5a0d6.pth')  # noqa
@@ -39,3 +39,15 @@ custom_keys.update({
 optim_wrapper.paramwise_cfg.pop('custom_keys')
 optim_wrapper.update(
     paramwise_cfg=dict(custom_keys=dict(**custom_keys)))
+
+custom_hooks = [
+    dict(type='mmdet.NumClassCheckHook'),
+    dict(
+        type='SwanLabHook',
+        init_kwargs=dict(
+            project='obb-ai4rs',
+            experiment_name='o2_rtdetr_r18vd_150e_dota',
+            description='O2RTDETR-R50 on DOTA dataset，训练正面/背面角钢、管夹、L/T型连接、尺寸标注'
+        ),
+        interval=10)
+]
