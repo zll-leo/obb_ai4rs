@@ -26,7 +26,7 @@ custom_hooks = [
     dict(
         type='SwanLabHook',
         init_kwargs=dict(
-            project='obb-ai4rs',
+            project='drawing-obb',
             experiment_name='o2_rtdetr_r100vd_150e_dota',
             description='O2RTDETR-R100 on DOTA dataset，训练正面/背面角钢、管夹、L/T型连接、尺寸标注'
         ),

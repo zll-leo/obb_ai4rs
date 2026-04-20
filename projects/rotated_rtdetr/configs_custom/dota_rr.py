@@ -67,7 +67,7 @@ test_pipeline = [
                    'scale_factor'))
 ]
 train_dataloader = dict(
-    batch_size=4,
+    batch_size=8,
     num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -82,7 +82,7 @@ train_dataloader = dict(
         filter_cfg=dict(filter_empty_gt=True),
         pipeline=train_pipeline))
 val_dataloader = dict(
-    batch_size=4,
+    batch_size=8,
     num_workers=4,
     persistent_workers=True,
     drop_last=False,
@@ -103,7 +103,7 @@ val_evaluator = dict(type='DOTAMetric', metric='mAP')
 # inference on test dataset and format the output results
 # for submission. Note: the test set has no annotation.
 test_dataloader = dict(
-    batch_size=4,
+    batch_size=8,
     num_workers=4,
     persistent_workers=False,
     drop_last=False,
