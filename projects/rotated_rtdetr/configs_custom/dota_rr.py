@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'DOTADataset'
-data_root = '/home/leo/dataset/drawings/ab_af_c_lc_tc_d_an_cn_em_anno/dota/'
+data_root = '/home/leo/dataset/drawings/toy_ab_af_c_lc_tc_d_an_cn_em/dota/'
 
 # 自定义类别
 classes = (
@@ -26,20 +26,52 @@ train_pipeline = [
     dict(type='mmdet.LoadImageFromFile', backend_args=backend_args),
     dict(type='mmdet.LoadAnnotations', with_bbox=True, box_type='qbox'),
     dict(type='ConvertBoxType', box_type_mapping=dict(gt_bboxes='rbox')),
-    dict(type='mmdet.Resize', scale=(1024, 1024), keep_ratio=True),
+    # mosaic: 必须在 ConvertBoxType 之后
+    dict(
+        type='mmdet.CachedMosaic',
+        img_scale=(1024, 1024),
+        pad_val=114.0),
+    # scale:
+    dict(
+        type='mmdet.RandomResize',
+        resize_type='mmdet.Resize',
+        scale=(1024, 1024),
+        ratio_range=(0.5, 1.5),
+        keep_ratio=True),
+    # 随机旋转
+    # dict(
+    #     type='RandomRotate',
+    #     prob=0.5,
+    #     angle_range=180,
+    #     rect_obj_labels=[]),
+    
+    # 随机平移
+    dict(
+        type='mmdet.RandomShift',
+        prob=0.5,
+        max_shift_px=102),
+    # RandomCrop: 强制裁回 1024×1024，保证 FPN 下采样时特征图能整除对齐
+    # （CachedMosaic 输出 2048×2048，RandomResize 后尺寸不定，必须裁回固定尺寸）
+    dict(
+        type='mmdet.RandomCrop',
+        crop_size=(1024, 1024),
+        allow_negative_crop=True),
+    
+    # hsv_h + hsv_s + hsv_v: YOLOXHSVRandomAug
+    dict(type='mmdet.YOLOXHSVRandomAug'),
+    
+    # 随机翻转
     dict(
         type='mmdet.RandomFlip',
         prob=0.75,
-        direction=['horizontal', 'vertical', 'diagonal']),
-    dict(
-        type='RandomRotate',
-        prob=0.5,
-        angle_range=180,
-        rect_obj_labels=[]),  # 自定义数据集无需矩形对象标签
+        direction=['horizontal']),
     dict(
         type='mmdet.Pad', size=(1024, 1024),
         pad_val=dict(img=(114, 114, 114))),
-    dict(type='mmdet.PackDetInputs')
+    # 注：YOLO 的 erasing 对应 mmdet.RandomErasing，但其源码硬断言
+    # isinstance(bboxes, HorizontalBoxes)，对 rbox 不兼容，故此处省略。
+    # 如需启用，需自定义纯像素级 erasing transform（不修改 gt_bboxes）。
+    dict(type='mmdet.PackDetInputs'),
 ]
 val_pipeline = [
     dict(type='mmdet.LoadImageFromFile', backend_args=backend_args),
