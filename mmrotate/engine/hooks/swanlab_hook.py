@@ -89,6 +89,17 @@ class SwanLabHook(LoggerHook):
                 if isinstance(value, (int, float)):
                     log_dict[f'train/{key}'] = value
 
+        # Get log variables from outputs (包含 loss 等指标)
+        if outputs is not None:
+            for key, value in outputs.items():
+                if isinstance(value, (int, float)):
+                    log_dict[f'train/{key}'] = value
+                elif isinstance(value, dict):
+                    # 处理嵌套字典（如 loss 的各个分量）
+                    for sub_key, sub_value in value.items():
+                        if isinstance(sub_value, (int, float)):
+                            log_dict[f'train/{key}_{sub_key}'] = sub_value
+
         self._swanlab.log(log_dict, step=runner.iter)
 
     def after_val_epoch(self,

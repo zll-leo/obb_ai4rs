@@ -47,7 +47,7 @@ custom_hooks = [
         init_kwargs=dict(
             project='drawing-obb',
             experiment_name='o2_rtdetr_r18vd_150e_dota',
-            description='O2RTDETR-R50 on DOTA dataset，训练正面/背面角钢、管夹、L/T型连接、尺寸标注'
+            description='O2RTDETR-R18 on DOTA dataset，训练正面/背面角钢、管夹、L/T型连接、尺寸标注',
         ),
         interval=10)
 ]
