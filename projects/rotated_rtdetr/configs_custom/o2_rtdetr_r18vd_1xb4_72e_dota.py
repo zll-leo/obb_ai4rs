@@ -2,8 +2,8 @@ from mmengine.config import read_base
 with read_base():
     from .o2_rtdetr_r50vd_1xb4_72e_dota import *
 
-pretrained = ('https://www.modelscope.cn/models/wokaikaixinxin/ai4rs/resolve/'
-              'master/rtdetr/resnet18vd_pretrained_55f5a0d6.pth')  # noqa
+# pretrained = ('https://www.modelscope.cn/models/wokaikaixinxin/ai4rs/resolve/'
+#               'master/rtdetr/resnet18vd_pretrained_55f5a0d6.pth')  # noqa
 
 model.update(
     backbone=dict(
@@ -11,7 +11,8 @@ model.update(
         frozen_stages=-1,
         norm_cfg=dict(requires_grad=True),
         norm_eval=False,
-        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        # init_cfg=dict(type='Pretrained', checkpoint=pretrained)
+        ),
     neck=dict(in_channels=[128, 256, 512]),
     encoder=dict(fpn_cfg=dict(expansion=0.5)),
     decoder=dict(num_layers=3))

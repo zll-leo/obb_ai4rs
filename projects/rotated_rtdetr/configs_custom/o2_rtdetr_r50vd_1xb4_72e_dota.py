@@ -18,8 +18,8 @@ with read_base():
     from .dota_rr import *
     from .default_runtime import *
 
-pretrained = ('https://www.modelscope.cn/models/wokaikaixinxin/ai4rs/resolve/'
-              'master/rtdetr/resnet50vd_ssld_v2_pretrained_d037e232.pth')  # noqa
+# pretrained = ('https://www.modelscope.cn/models/wokaikaixinxin/ai4rs/resolve/'
+            #   'master/rtdetr/resnet50vd_ssld_v2_pretrained_d037e232.pth')  # noqa
 
 angle_cfg = dict(
     width_longer=True,
@@ -49,7 +49,8 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=False),  # BN for DINO
         norm_eval=True,
         style='pytorch',
-        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        # init_cfg=dict(type='Pretrained', checkpoint=pretrained)
+        ),
     neck=dict(
         type=ChannelMapper,
         in_channels=[512, 1024, 2048],
